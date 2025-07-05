@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polyalphabetic Cipher</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Navbar -->
+    <nav class="bg-gray-800 p-4">
+        <div class="max-w-7xl mx-auto flex justify-around">
+            <a href="trasposition.html" class="text-white text-lg hover:text-blue-400">Transposition </a>
+            <a href="rsaImplementation.html" class="text-white text-lg hover:text-blue-400">RSA</a>
+            <a href="polyalphabetic.html" class="text-white text-lg hover:text-blue-400">polyalphabetic</a>
+            <a href="playfair.html" class="text-white text-lg hover:text-blue-400">playfair</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-3xl mx-auto mt-8 bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Polyalphabetic Cipher</h1>
+
+        <div class="mb-4">
+            <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+            <textarea id="message" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+        
+        <div class="mb-4">
+            <label for="key" class="block text-sm font-medium text-gray-700">Key</label>
+            <input type="text" id="key" placeholder="Enter key" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <div class="mb-4">
+            <label for="operation" class="block text-sm font-medium text-gray-700">Operation</label>
+            <select id="operation" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="encrypt">Encrypt</option>
+                <option value="decrypt">Decrypt</option>
+            </select>
+        </div>
+
+        <button onclick="processText()" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 mb-4">Process</button>
+
+        <div class="result mb-4">
+            <h3 class="text-lg font-semibold text-gray-800">Result:</h3>
+            <p id="result" class="text-gray-700"></p>
+        </div>
+
+        <!-- <div class="container mt-8 bg-gray-50 p-8 rounded-lg shadow-lg">
+            <h2 class="text-xl font-semibold text-gray-800">Cipher Reference</h2>
+            <p class="text-sm text-gray-600">Formula: P = (c - K) mod 26</p>
+            <table class="table-auto w-full mt-4">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2 border">A</th><th class="px-4 py-2 border">B</th><th class="px-4 py-2 border">C</th><th class="px-4 py-2 border">D</th><th class="px-4 py-2 border">E</th>
+                        <th class="px-4 py-2 border">F</th><th class="px-4 py-2 border">G</th><th class="px-4 py-2 border">H</th><th class="px-4 py-2 border">I</th><th class="px-4 py-2 border">J</th>
+                        <th class="px-4 py-2 border">K</th><th class="px-4 py-2 border">L</th><th class="px-4 py-2 border">M</th><th class="px-4 py-2 border">N</th><th class="px-4 py-2 border">O</th>
+                        <th class="px-4 py-2 border">P</th><th class="px-4 py-2 border">Q</th><th class="px-4 py-2 border">R</th><th class="px-4 py-2 border">S</th><th class="px-4 py-2 border">T</th>
+                        <th class="px-4 py-2 border">U</th><th class="px-4 py-2 border">V</th><th class="px-4 py-2 border">W</th><th class="px-4 py-2 border">X</th><th class="px-4 py-2 border">Y</th>
+                        <th class="px-4 py-2 border">Z</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="px-4 py-2 border">0</td><td class="px-4 py-2 border">1</td><td class="px-4 py-2 border">2</td><td class="px-4 py-2 border">3</td><td class="px-4 py-2 border">4</td>
+                        <td class="px-4 py-2 border">5</td><td class="px-4 py-2 border">6</td><td class="px-4 py-2 border">7</td><td class="px-4 py-2 border">8</td><td class="px-4 py-2 border">9</td>
+                        <td class="px-4 py-2 border">10</td><td class="px-4 py-2 border">11</td><td class="px-4 py-2 border">12</td><td class="px-4 py-2 border">13</td><td class="px-4 py-2 border">14</td>
+                        <td class="px-4 py-2 border">15</td><td class="px-4 py-2 border">16</td><td class="px-4 py-2 border">17</td><td class="px-4 py-2 border">18</td><td class="px-4 py-2 border">19</td>
+                        <td class="px-4 py-2 border">20</td><td class="px-4 py-2 border">21</td><td class="px-4 py-2 border">22</td><td class="px-4 py-2 border">23</td><td class="px-4 py-2 border">24</td>
+                        <td class="px-4 py-2 border">25</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-8">
+            <h3 class="text-lg font-semibold text-gray-800">Example from Image:</h3>
+            <p>Original: "Group meeting will be on bridge at"</p>
+            <p>Key: "individual"</p>
+            <p>Encrypted: "initiv idualindividual individu"</p>
+        </div> -->
+    </div>
+
+    <script>
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const charToNum = {};
+        const numToChar = {};
+        
+        for (let i = 0; i < alphabet.length; i++) {
+            charToNum[alphabet[i]] = i;
+            numToChar[i] = alphabet[i];
+        }
+
+        function processText() {
+            const message = document.getElementById('message').value.toUpperCase().replace(/[^A-Z]/g, '');
+            const key = document.getElementById('key').value.toUpperCase().replace(/[^A-Z]/g, '');
+            const operation = document.getElementById('operation').value;
+            
+            if (!message || !key) {
+                alert('Please enter both message and key');
+                return;
+            }
+            
+            let result = '';
+            
+            if (operation === 'encrypt') {
+                result = encrypt(message, key);
+            } else {
+                result = decrypt(message, key);
+            }
+            
+            document.getElementById('result').textContent = result;
+        }
+
+        function encrypt(plaintext, key) {
+            let ciphertext = '';
+            const keyLength = key.length;
+            
+            for (let i = 0; i < plaintext.length; i++) {
+                const plainChar = plaintext[i];
+                const keyChar = key[i % keyLength];
+                
+                const plainNum = charToNum[plainChar];
+                const keyNum = charToNum[keyChar];
+                
+                const cipherNum = (plainNum + keyNum) % 26;
+                ciphertext += numToChar[cipherNum];
+                
+                if ((i + 1) % 5 === 0) {
+                    ciphertext += ' ';
+                }
+            }
+            
+            return ciphertext.trim();
+        }
+
+        function decrypt(ciphertext, key) {
+            let plaintext = '';
+            const keyLength = key.length;
+            
+            for (let i = 0; i < ciphertext.length; i++) {
+                const cipherChar = ciphertext[i];
+                const keyChar = key[i % keyLength];
+                
+                const cipherNum = charToNum[cipherChar];
+                const keyNum = charToNum[keyChar];
+                
+                let plainNum = (cipherNum - keyNum) % 26;
+                if (plainNum < 0) {
+                    plainNum += 26;
+                }
+                plaintext += numToChar[plainNum];
+            }
+            
+            return plaintext;
+        }
+    </script>
+</body>
+</html>

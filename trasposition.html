@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transposition Cipher</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-gray-800 p-4">
+        <div class="max-w-7xl mx-auto flex justify-around">
+            <a href="trasposition.html" class="text-white text-lg hover:text-blue-400">Transposition </a>
+            <a href="rsaImplementation.html" class="text-white text-lg hover:text-blue-400">RSA</a>
+            <a href="polyalphabetic.html" class="text-white text-lg hover:text-blue-400">polyalphabetic</a>
+            <a href="playfair.html" class="text-white text-lg hover:text-blue-400">playfair</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mx-auto mt-6">
+        <h1 id="a1" class="text-2xl font-bold mb-6 text-center">Transposition Cipher</h1>
+        
+        <div class="mb-4">
+            <label for="inputText" class="block text-sm font-medium text-gray-700">Input Text</label>
+            <textarea id="inputText" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+        
+        <div class="mb-4">
+            <label for="key" class="block text-sm font-medium text-gray-700">Key (e.g., 5423176 or ZEBRAS)</label>
+            <input type="text" id="key" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="e.g., 5423176 or ZEBRAS">
+        </div>
+        
+        <div class="flex justify-between mb-4">
+            <button onclick="encrypt()" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Encrypt</button>
+            <button onclick="decrypt()" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600">Decrypt</button>
+        </div>
+        
+        <div class="mb-4">
+            <label for="outputText" class="block text-sm font-medium text-gray-700">Output</label>
+            <textarea id="outputText" rows="4" readonly class="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-gray-100"></textarea>
+        </div>
+    </div>
+
+    <script>
+        function encrypt() {
+            const text = document.getElementById('inputText').value;
+            let key = document.getElementById('key').value;
+            const output = document.getElementById('outputText');
+
+            // Input validation
+            if (!text || !key) {
+                output.value = "Please provide text and a key.";
+                return;
+            }
+
+            // Clean key: remove spaces, convert to uppercase
+            key = key.replace(/\s/g, '').toUpperCase();
+            if (key.length === 0) {
+                output.value = "Key cannot be empty.";
+                return;
+            }
+
+            // Clean text: remove non-letters, convert to uppercase
+            const cleanText = text.replace(/[^a-zA-Z]/g, '').toUpperCase();
+            if (cleanText.length === 0) {
+                output.value = "Please enter valid alphabetic text.";
+                return;
+            }
+
+            const cols = key.length;
+            const rows = Math.ceil(cleanText.length / cols);
+            let grid = Array(rows).fill().map(() => Array(cols).fill(''));
+
+            // Fill grid row-wise
+            let index = 0;
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    if (index < cleanText.length) {
+                        grid[i][j] = cleanText[index++];
+                    } else {
+                        grid[i][j] = 'X'; // Padding with 'X'
+                    }
+                }
+            }
+
+            // Create column order based on key
+            const keyArray = key.split('');
+            const columnOrder = keyArray
+                .map((char, idx) => ({ char, idx }))
+                .sort((a, b) => a.char.localeCompare(b.char))
+                .map(item => item.idx);
+
+            // Read grid column-wise based on key order, add space after each column
+            let cipherText = '';
+            for (let col of columnOrder) {
+                let columnText = '';
+                for (let i = 0; i < rows; i++) {
+                    columnText += grid[i][col];
+                }
+                cipherText += columnText + ' ';
+            }
+
+            // Remove trailing space
+            cipherText = cipherText.trim();
+            output.value = cipherText;
+        }
+
+        function decrypt() {
+            const text = document.getElementById('inputText').value;
+            let key = document.getElementById('key').value;
+            const output = document.getElementById('outputText');
+
+            // Input validation
+            if (!text || !key) {
+                output.value = "Please provide text and a key.";
+                return;
+            }
+
+            // Clean key: remove spaces, convert to uppercase
+            key = key.replace(/\s/g, '').toUpperCase();
+            if (key.length === 0) {
+                output.value = "Key cannot be empty.";
+                return;
+            }
+
+            // Clean text: remove non-letters, convert to uppercase
+            const cleanText = text.replace(/[^a-zA-Z]/g, '').toUpperCase();
+            if (cleanText.length === 0) {
+                output.value = "Please enter valid alphabetic text.";
+                return;
+            }
+
+            const cols = key.length;
+            const rows = Math.ceil(cleanText.length / cols);
+            if (cleanText.length < rows * cols) {
+                output.value = "Text length does not match the key.";
+                return;
+            }
+
+            // Create column order based on key
+            const keyArray = key.split('');
+            const columnOrder = keyArray
+                .map((char, idx) => ({ char, idx }))
+                .sort((a, b) => a.char.localeCompare(b.char))
+                .map(item => item.idx);
+
+            // Calculate how many characters per column
+            let grid = Array(rows).fill().map(() => Array(cols).fill(''));
+            let index = 0;
+            for (let col of columnOrder) {
+                for (let i = 0; i < rows; i++) {
+                    if (index < cleanText.length) {
+                        grid[i][col] = cleanText[index++];
+                    }
+                }
+            }
+
+            // Read grid row-wise
+            let plainText = '';
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    plainText += grid[i][j];
+                }
+            }
+
+            // Remove padding 'X' characters
+            plainText = plainText.replace(/X+$/, '');
+            output.value = plainText;
+        }
+    </script>
+</body>
+</html>

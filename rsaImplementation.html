@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSA Implementation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-gray-800 p-4">
+        <div class="max-w-7xl mx-auto flex justify-around">
+            <a href="trasposition.html" class="text-white text-lg hover:text-blue-400">Transposition </a>
+            <a href="rsaImplementation.html" class="text-white text-lg hover:text-blue-400">RSA</a>
+            <a href="polyalphabetic.html" class="text-white text-lg hover:text-blue-400">polyalphabetic</a>
+            <a href="playfair.html" class="text-white text-lg hover:text-blue-400">playfair</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md mx-auto mt-6">
+        <h1 id="a1" class="text-2xl font-bold mb-6 text-center">RSA Implementation</h1>
+        
+        <div class="mb-4">
+            <label for="primeP" class="block text-sm font-medium text-gray-700">Prime number p</label>
+            <input type="number" id="primeP" value="61" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        
+        <div class="mb-4">
+            <label for="primeQ" class="block text-sm font-medium text-gray-700">Prime number q</label>
+            <input type="number" id="primeQ" value="53" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        
+        <div class="mb-4">
+            <label for="message" class="block text-sm font-medium text-gray-700">Message (number)</label>
+            <input type="number" id="message" value="42" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        
+        <div class="flex justify-center mb-6">
+            <button onclick="runRSA()" class="bg-blue-500 text-white px-6 py-3 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                Run RSA
+            </button>
+        </div>
+
+        <div id="output" class="bg-gray-100 p-4 rounded-lg shadow-inner">
+            <!-- RSA output will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        // Calculate GCD
+        function gcd(a, b) {
+            while (b) {
+                [a, b] = [b, a % b];
+            }
+            return a;
+        }
+
+        // Calculate modular inverse
+        function modInverse(e, phi) {
+            let d = 0;
+            while ((e * d) % phi !== 1) {
+                d++;
+            }
+            return d;
+        }
+
+        // Generate RSA keys
+        function generateKeys(p, q) {
+            const n = p * q;
+            const phi = (p - 1) * (q - 1);
+            let e = 2;
+            while (e < phi) {
+                if (gcd(e, phi) === 1 && e !== p && e !== q) {
+                    break;
+                }
+                e++;
+            }
+            const d = modInverse(e, phi);
+            return { publicKey: { e, n }, privateKey: { d, n } };
+        }
+
+        // Encrypt message
+        function encrypt(publicKey, message) {
+            const { e, n } = publicKey;
+            return modularExponentiation(message, e, n);
+        }
+
+        // Decrypt message
+        function decrypt(privateKey, cipher) {
+            const { d, n } = privateKey;
+            return modularExponentiation(cipher, d, n);
+        }
+
+        // Modular exponentiation for large numbers
+        function modularExponentiation(base, exponent, modulus) {
+            let result = 1;
+            base = base % modulus;
+            while (exponent > 0) {
+                if (exponent & 1) {
+                    result = (result * base) % modulus;
+                }
+                base = (base * base) % modulus;
+                exponent = exponent >> 1;
+            }
+            return result;
+        }
+
+        // Main function to run RSA
+        function runRSA() {
+            const p = parseInt(document.getElementById('primeP').value);
+            const q = parseInt(document.getElementById('primeQ').value);
+            const message = parseInt(document.getElementById('message').value);
+
+            const { publicKey, privateKey } = generateKeys(p, q);
+
+            const cipher = encrypt(publicKey, message);
+            const decryptedMessage = decrypt(privateKey, cipher);
+
+            const output = document.getElementById('output');
+            output.innerHTML = `
+                <strong>Public Key:</strong> (e=${publicKey.e}, n=${publicKey.n})<br>
+                <strong>Private Key:</strong> (d=${privateKey.d}, n=${privateKey.n})<br>
+                <strong>Original Message:</strong> ${message}<br>
+                <strong>Encrypted Message:</strong> ${cipher}<br>
+                <strong>Decrypted Message:</strong> ${decryptedMessage}
+            `;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>playfair Cipher</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f4f6;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <!-- Navbar -->
+  <nav class="bg-gray-800 p-4">
+    <div class="max-w-7xl mx-auto flex justify-around">
+      <a href="trasposition.html" class="text-white text-lg hover:text-blue-400">Transposition </a>
+      <a href="rsaImplementation.html" class="text-white text-lg hover:text-blue-400">RSA</a>
+      <a href="polyalphabetic.html" class="text-white text-lg hover:text-blue-400">polyalphabetic</a>
+      <a href="playfair.html" class="text-white text-lg hover:text-blue-400">playfair</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-xl mx-auto mt-6">
+    <h1 class="text-2xl font-bold mb-6 text-center">playfair Cipher</h1>
+
+    <div class="mb-4">
+      <label for="input" class="block text-sm font-medium text-gray-700">Plain Text</label>
+      <textarea id="input" rows="4" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+    </div>
+
+    <div class="mb-4">
+      <label for="key" class="block text-sm font-medium text-gray-700">Key</label>
+      <input type="text" id="key" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </div>
+
+    <div class="flex justify-between mb-4">
+      <button id="encryptBtn" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 w-1/2 mr-2">Encrypt</button>
+      <button id="decryptBtn" class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 w-1/2 ml-2">Decrypt</button>
+    </div>
+
+    <div class="mb-4">
+      <label for="output" class="block text-sm font-medium text-gray-700">Output</label>
+      <textarea id="output" rows="4" readonly class="mt-1 block w-full border border-gray-300 rounded-md p-2 bg-gray-100"></textarea>
+    </div>
+  </div>
+
+  <script>
+    function generateMatrix(key) {
+      key = key.toUpperCase().replace(/J/g, "I").replace(/[^A-Z]/g, '');
+      let matrix = [];
+      let used = new Set();
+  
+      for (let char of key + "ABCDEFGHIKLMNOPQRSTUVWXYZ") {
+        if (!used.has(char)) {
+          matrix.push(char);
+          used.add(char);
+        }
+      }
+  
+      let grid = [];
+      for (let i = 0; i < 5; i++) {
+        grid.push(matrix.slice(i * 5, i * 5 + 5));
+      }
+  
+      return grid;
+    }
+  
+    function findPosition(matrix, char) {
+      for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 5; j++) {
+          if (matrix[i][j] === char) return [i, j];
+        }
+      }
+      return null;
+    }
+  
+    function prepareText(text) {
+      text = text.toUpperCase().replace(/J/g, "I").replace(/[^A-Z]/g, '');
+      let prepared = "";
+      for (let i = 0; i < text.length; i++) {
+        prepared += text[i];
+        if (text[i] === text[i + 1]) {
+          prepared += 'X';
+        }
+      }
+      if (prepared.length % 2 !== 0) {
+        prepared += 'X';
+      }
+  
+      let pairs = [];
+      for (let i = 0; i < prepared.length; i += 2) {
+        pairs.push([prepared[i], prepared[i + 1]]);
+      }
+      return pairs;
+    }
+  
+    function playfairEncrypt(text, key) {
+      const matrix = generateMatrix(key);
+      const pairs = prepareText(text);
+      let result = "";
+  
+      for (let [a, b] of pairs) {
+        let [row1, col1] = findPosition(matrix, a);
+        let [row2, col2] = findPosition(matrix, b);
+  
+        if (row1 === row2) {
+          result += matrix[row1][(col1 + 1) % 5];
+          result += matrix[row2][(col2 + 1) % 5];
+        } else if (col1 === col2) {
+          result += matrix[(row1 + 1) % 5][col1];
+          result += matrix[(row2 + 1) % 5][col2];
+        } else {
+          result += matrix[row1][col2];
+          result += matrix[row2][col1];
+        }
+      }
+  
+      return result;
+    }
+  
+    function playfairDecrypt(text, key) {
+      const matrix = generateMatrix(key);
+      const pairs = prepareText(text);
+      let result = "";
+  
+      for (let [a, b] of pairs) {
+        let [row1, col1] = findPosition(matrix, a);
+        let [row2, col2] = findPosition(matrix, b);
+  
+        if (row1 === row2) {
+          result += matrix[row1][(col1 + 4) % 5];
+          result += matrix[row2][(col2 + 4) % 5];
+        } else if (col1 === col2) {
+          result += matrix[(row1 + 4) % 5][col1];
+          result += matrix[(row2 + 4) % 5][col2];
+        } else {
+          result += matrix[row1][col2];
+          result += matrix[row2][col1];
+        }
+      }
+  
+      return result;
+    }
+  
+    document.getElementById('encryptBtn').addEventListener('click', () => {
+      const text = document.getElementById('input').value;
+      const key = document.getElementById('key').value;
+      if (key.trim()) {
+        document.getElementById('output').value = playfairEncrypt(text, key);
+      } else {
+        alert('Please enter a valid text key.');
+      }
+    });
+  
+    document.getElementById('decryptBtn').addEventListener('click', () => {
+      const text = document.getElementById('input').value;
+      const key = document.getElementById('key').value;
+      if (key.trim()) {
+        document.getElementById('output').value = playfairDecrypt(text, key);
+      } else {
+        alert('Please enter a valid text key.');
+      }
+    });
+  </script>
+  
+</body>
+</html>
