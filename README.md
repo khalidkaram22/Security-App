@@ -37,4 +37,4 @@ The app is partially responsive thanks to Tailwind CSS but is optimized mainly f
 ### 🌐 Live Demo
 
 > *(Add your GitHub Pages link here once deployed)*  
-Example: `https://yourusername.github.io/security-app/`
+Example: `https://khalidkaram22.github.io/security-app/`
