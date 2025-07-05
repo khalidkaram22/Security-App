@@ -36,5 +36,32 @@ The app is partially responsive thanks to Tailwind CSS but is optimized mainly f
 
 ### 🌐 Live Demo
 
-> *(Add your GitHub Pages link here once deployed)*  
-Example: `https://khalidkaram22.github.io/security-app/`
+Check out the live demo here:  
+🔗 [https://khalidkaram22.github.io/security-app/](https://khalidkaram22.github.io/security-app/)
+
+
+### 🧑‍💻 Author
+Khalid Karam
+Mobile Developer | CS Student 
+LinkedIn: [https://www.linkedin.com/in/khalid-karam-44671b244/](https://www.linkedin.com/in/khalid-karam-44671b244/)  
+GitHub: [https://github.com/khalidkaram22](https://github.com/khalidkaram22)
+
+
+### 🧑‍💻 Author
+Khalid AKram
+Mobile Developer | CS Student 
+LinkedIn: [https://www.linkedin.com/in/khalid-karam-44671b244/](https://www.linkedin.com/in/khalid-karam-44671b244/)  
+GitHub: [https://github.com/khalidkaram22](https://github.com/khaledakram2323)
+
+
+### 🧑‍💻 Author
+Youssef Ahmed
+Mobile Developer | CS Student 
+LinkedIn: [https://www.linkedin.com/in/khalid-karam-44671b244/](https://www.linkedin.com/in/youssefahmed9/)  
+GitHub: [https://github.com/khalidkaram22](https://github.com/youssefahmed9)
+
+
+### 🧑‍💻 Author
+Khaled Amr
+Back-End Developer | CS Student 
+LinkedIn: [https://www.linkedin.com/in/khalid-karam-44671b244/](https://www.linkedin.com/in/khaled-amr-1585422b6/)  
