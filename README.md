@@ -50,7 +50,7 @@ GitHub: [https://github.com/khalidkaram22](https://github.com/khalidkaram22)
 ### 🧑‍💻 Author
 Khalid AKram
 Mobile Developer | CS Student 
-LinkedIn: [https://www.linkedin.com/in/khalid-karam-44671b244/](https://www.linkedin.com/in/khalid-karam-44671b244/)  
+LinkedIn: [https://www.linkedin.com/in/khalid-karam-44671b244/](https://www.linkedin.com/in/khaled-akram-54724a2b0/)  
 GitHub: [https://github.com/khalidkaram22](https://github.com/khaledakram2323)
 
 
@@ -59,6 +59,7 @@ Youssef Ahmed
 Mobile Developer | CS Student 
 LinkedIn: [https://www.linkedin.com/in/khalid-karam-44671b244/](https://www.linkedin.com/in/youssefahmed9/)  
 GitHub: [https://github.com/khalidkaram22](https://github.com/youssefahmed9)
+
 
 
 ### 🧑‍💻 Author
