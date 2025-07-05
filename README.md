@@ -50,19 +50,23 @@ GitHub: [https://github.com/khalidkaram22](https://github.com/khalidkaram22)
 ### 🧑‍💻 Author
 Khalid Akram
 Mobile Developer | CS Student 
-LinkedIn: [https://www.linkedin.com/in/khalid-karam-44671b244/](https://www.linkedin.com/in/khaled-akram-54724a2b0/)  
-GitHub: [https://github.com/khalidkaram22](https://github.com/khaledakram2323)
+LinkedIn: [https://www.linkedin.com/in/khaled-akram-54724a2b0/](https://www.linkedin.com/in/khaled-akram-54724a2b0/)  
+GitHub: [https://github.com/khaledakram2323](https://github.com/khaledakram2323)
 
 
 ### 🧑‍💻 Author
 Youssef Ahmed
 Mobile Developer | CS Student 
-LinkedIn: [https://www.linkedin.com/in/khalid-karam-44671b244/](https://www.linkedin.com/in/youssefahmed9/)  
-GitHub: [https://github.com/khalidkaram22](https://github.com/youssefahmed9)
+LinkedIn: [https://www.linkedin.com/in/youssefahmed9/](https://www.linkedin.com/in/youssefahmed9/)  
+GitHub: [https://github.com/youssefahmed9](https://github.com/youssefahmed9)
 
 
 
 ### 🧑‍💻 Author
 Khaled Amr
 Back-End Developer | CS Student 
-LinkedIn: [https://www.linkedin.com/in/khalid-karam-44671b244/](https://www.linkedin.com/in/khaled-amr-1585422b6/)  
+LinkedIn: [https://www.linkedin.com/in/khaled-amr-1585422b6/](https://www.linkedin.com/in/khaled-amr-1585422b6/)  
+
+
+
+
