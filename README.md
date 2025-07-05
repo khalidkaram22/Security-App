@@ -37,7 +37,7 @@ The app is partially responsive thanks to Tailwind CSS but is optimized mainly f
 ### 🌐 Live Demo
 
 Check out the live demo here:  
-🔗 [https://khalidkaram22.github.io/security-app/](https://khalidkaram22.github.io/security-app/)
+🔗 [https://khalidkaram22.github.io/security-app/](https://khalidkaram22.github.io/Security-App/)
 
 
 ### 🧑‍💻 Author
